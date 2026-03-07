@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ResourceController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\Admin\CategoryController;
 use Illuminate\Http\Request;
 
 
@@ -17,7 +18,10 @@ Route::group(['prefix' => 'v1', 'middleware' => 'api'], function ($router) {
 
     Route::middleware('auth:api')->group(function () {
         Route::apiResource('/users', UserController::class);
-        
+
+        Route::prefix('admin')->group(function () {
+            Route::apiResource('categories', CategoryController::class);
+        });
 
         Route::group(['prefix' => 'resources'], function () {
             Route::controller(ResourceController::class)->group(function () {

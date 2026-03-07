@@ -10,6 +10,9 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
+    public const ROLE_USER = 'user';
+    public const ROLE_ADMIN = 'admin';
+
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
@@ -57,5 +60,10 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function ads()
+    {
+        return $this->hasMany(Ad::class, 'seller_id');
     }
 }

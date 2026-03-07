@@ -30,7 +30,7 @@ class UpdateRequest extends FormRequest
             'email'    => 'required|email|unique:users,email,' . $userId,
             'password' => 'nullable|string|min:6', // parol har safar shart emas
             'phone'    => 'nullable|string|max:255',
-            'role'     => 'required|in:superadmin,admin,seller,buyer',
+            'role'     => 'required|in:user,admin',
         ];
     }
 }

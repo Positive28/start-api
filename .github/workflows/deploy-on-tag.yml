@@ -22,11 +22,22 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p ~/.ssh
-          printf '%s\n' "${VPS_SSH_KEY}" > ~/.ssh/deploy_key
-          tr -d '\r' < ~/.ssh/deploy_key > ~/.ssh/deploy_key_clean
-          chmod 600 ~/.ssh/deploy_key_clean
+          KEY_FILE=~/.ssh/deploy_key_clean
+
+          # Supports:
+          # 1) multi-line private key in secret
+          # 2) one-line key with literal \n escapes
+          # 3) base64-encoded private key
+          if printf '%s' "${VPS_SSH_KEY}" | grep -q "BEGIN .*PRIVATE KEY"; then
+            printf '%b' "${VPS_SSH_KEY}" | tr -d '\r' > "${KEY_FILE}"
+          else
+            printf '%s' "${VPS_SSH_KEY}" | tr -d '\r' | base64 -d > "${KEY_FILE}"
+          fi
+
+          chmod 600 "${KEY_FILE}"
+          ssh-keygen -y -f "${KEY_FILE}" >/dev/null
           eval "$(ssh-agent -s)"
-          ssh-add ~/.ssh/deploy_key_clean
+          ssh-add "${KEY_FILE}"
 
       - name: Add server to known hosts
         env:

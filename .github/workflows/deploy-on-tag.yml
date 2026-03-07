@@ -63,6 +63,11 @@ jobs:
           set -euo pipefail
           PORT="${VPS_PORT:-22}"
           APP_DIR="${VPS_APP_DIR:-/var/www/start-api}"
+          DEPLOY_SCRIPT_REMOTE="/tmp/deploy-tag.sh"
+
+          # Upload latest deploy script from repository each run.
+          scp -i ~/.ssh/deploy_key -o BatchMode=yes -P "${PORT}" \
+            "./scripts/deploy-tag.sh" "${VPS_USER}@${VPS_HOST}:${DEPLOY_SCRIPT_REMOTE}"
 
           ssh -i ~/.ssh/deploy_key -o BatchMode=yes -p "${PORT}" "${VPS_USER}@${VPS_HOST}" \
-            "APP_DIR='${APP_DIR}' bash '${APP_DIR}/scripts/deploy-tag.sh' '${TAG}'"
+            "chmod +x '${DEPLOY_SCRIPT_REMOTE}' && APP_DIR='${APP_DIR}' bash '${DEPLOY_SCRIPT_REMOTE}' '${TAG}'"

@@ -61,6 +61,74 @@ In order to ensure that the Laravel community is welcoming to all, please review
 
 If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
+## VPS Connection and Tag Deployment
+
+### 1) Connect to VPS
+
+Use SSH from your terminal:
+
+```bash
+ssh root@170.168.6.145
+```
+
+After first login, rotate the root password and add an SSH key:
+
+```bash
+# local machine
+ssh-keygen -t ed25519 -C "kamuranbek1998@gmail.com" -f ~/.ssh/vps_eskiz
+ssh-copy-id -i ~/.ssh/vps_eskiz.pub root@170.168.6.145
+```
+
+Then connect with key:
+
+```bash
+ssh -i ~/.ssh/vps_eskiz root@170.168.6.145
+```
+
+### 2) Prepare server once
+
+On VPS, install required packages (PHP 8.2+, Composer, Node.js 18+, Git, Nginx/Apache), then clone project:
+
+```bash
+mkdir -p /var/www
+cd /var/www
+git clone <your-repository-url> start-api
+cd /var/www/start-api
+cp .env.example .env
+composer install
+php artisan key:generate
+php artisan migrate --force
+```
+
+### 3) Configure GitHub Secrets
+
+Add repository secrets:
+
+- `VPS_HOST` = `170.168.6.145`
+- `VPS_USER` = `root` (or a dedicated deploy user)
+- `VPS_SSH_KEY` = private SSH key used by GitHub Actions
+- `VPS_APP_DIR` = `/var/www/start-api` (optional, default is this path)
+- `VPS_PORT` = `22` (optional, default is 22)
+
+Workflow file: `.github/workflows/deploy-on-tag.yml`
+
+### 4) Tag-based deployment
+
+Create and push a version tag:
+
+```bash
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+GitHub Actions triggers deployment and runs:
+
+- `bash scripts/deploy-tag.sh <tag>` on VPS
+- `composer install --no-dev`
+- `npm ci && npm run build`
+- `php artisan migrate --force`
+- cache refresh (`config:cache`, `route:cache`)
+
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

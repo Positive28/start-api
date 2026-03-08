@@ -52,6 +52,18 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -p "${PORT}" -H "${VPS_HOST}" >> ~/.ssh/known_hosts
 
+      - name: Create .env from variables
+        env:
+          ENV_CONTENT: ${{ vars.ENV_CONTENT }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${ENV_CONTENT}" ]]; then
+            echo "::error::ENV_CONTENT variable is required. Add it in Settings → Secrets and variables → Actions → Variables."
+            exit 1
+          fi
+          printf '%s' "${ENV_CONTENT}" > .env.deploy
+          echo "ENV_CONTENT length: $(wc -c < .env.deploy) bytes"
+
       - name: Deploy selected tag over SSH
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
@@ -65,9 +77,11 @@ jobs:
           APP_DIR="${VPS_APP_DIR:-/var/www/start-api}"
           DEPLOY_SCRIPT_REMOTE="/tmp/deploy-tag.sh"
 
-          # Upload latest deploy script from repository each run.
+          # Upload deploy script and .env
           scp -i ~/.ssh/deploy_key -o BatchMode=yes -P "${PORT}" \
             "./scripts/deploy-tag.sh" "${VPS_USER}@${VPS_HOST}:${DEPLOY_SCRIPT_REMOTE}"
+          scp -i ~/.ssh/deploy_key -o BatchMode=yes -P "${PORT}" \
+            "./.env.deploy" "${VPS_USER}@${VPS_HOST}:${APP_DIR}/.env"
 
           ssh -i ~/.ssh/deploy_key -o BatchMode=yes -p "${PORT}" "${VPS_USER}@${VPS_HOST}" \
             "chmod +x '${DEPLOY_SCRIPT_REMOTE}' && APP_DIR='${APP_DIR}' bash '${DEPLOY_SCRIPT_REMOTE}' '${TAG}'"

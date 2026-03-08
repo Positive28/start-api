@@ -12,7 +12,6 @@ fi
 APP_DIR="${APP_DIR:-/var/www/start-api}"
 PHP_BIN="${PHP_BIN:-php}"
 COMPOSER_BIN="${COMPOSER_BIN:-composer}"
-NPM_BIN="${NPM_BIN:-npm}"
 QUEUE_RESTART="${QUEUE_RESTART:-true}"
 PHP_FPM_RESTART_CMD="${PHP_FPM_RESTART_CMD:-}"
 
@@ -27,8 +26,6 @@ git fetch --tags origin
 git checkout --force "${TAG}"
 
 ${COMPOSER_BIN} install --no-dev --optimize-autoloader --no-interaction --prefer-dist
-${NPM_BIN} ci
-${NPM_BIN} run build
 
 ${PHP_BIN} artisan migrate --force
 ${PHP_BIN} artisan optimize:clear

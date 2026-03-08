@@ -85,24 +85,48 @@ Then connect with key:
 ssh -i ~/.ssh/vps_eskiz root@170.168.6.145
 ```
 
-### 2) Prepare server once
+### 2) Prepare server once (Ubuntu 22)
 
-On VPS, install required packages (PHP 8.2+, Composer, Node.js 18+, Git, Nginx/Apache), then clone project:
+This is an API-only Laravel project with PostgreSQL. Install:
+
+```bash
+# PHP 8.2 + extensions (add ondrej/php PPA first: sudo add-apt-repository ppa:ondrej/php && sudo apt update)
+sudo apt update
+sudo apt install -y php8.2-fpm php8.2-cli php8.2-common php8.2-pgsql php8.2-mbstring php8.2-xml php8.2-bcmath php8.2-ctype php8.2-fileinfo php8.2-tokenizer php8.2-curl php8.2-zip
+
+# Composer
+curl -sS https://getcomposer.org/installer | php
+sudo mv composer.phar /usr/local/bin/composer
+
+# PostgreSQL (use the same password you will put in ENV_CONTENT)
+sudo apt install -y postgresql postgresql-contrib
+sudo -u postgres psql -c "CREATE USER laravel WITH PASSWORD 'YOUR_DB_PASSWORD';"
+sudo -u postgres psql -c "CREATE DATABASE start_api OWNER laravel;"
+
+# Nginx
+sudo apt install -y nginx
+
+# Git
+sudo apt install -y git
+```
+
+Clone project and set permissions:
 
 ```bash
 mkdir -p /var/www
 cd /var/www
-git clone <your-repository-url> start-api
-cd /var/www/start-api
-cp .env.example .env
-composer install
-php artisan key:generate
-php artisan migrate --force
+git clone https://github.com/Positive28/start-api.git start-api
+sudo chown -R www-data:www-data /var/www/start-api
+sudo chmod -R 775 /var/www/start-api/storage /var/www/start-api/bootstrap/cache
 ```
 
-### 3) Configure GitHub Secrets
+`.env` is created automatically from `ENV_CONTENT` secret during each deploy. Do not create it manually.
 
-Add repository secrets:
+Configure Nginx to serve `public/` as document root. See [Laravel deployment docs](https://laravel.com/docs/deployment#nginx).
+
+### 3) Configure GitHub Secrets and Variables
+
+**Secrets** (Settings → Secrets and variables → Actions → Secrets):
 
 - `VPS_HOST` = `170.168.6.145`
 - `VPS_USER` = `root` (or a dedicated deploy user)
@@ -110,7 +134,19 @@ Add repository secrets:
 - `VPS_APP_DIR` = `/var/www/start-api` (optional, default is this path)
 - `VPS_PORT` = `22` (optional, default is 22)
 
-Workflow file: `.github/workflows/deploy-on-tag.yml`
+**Variables** (Settings → Secrets and variables → Actions → Variables) — values are visible after creation:
+
+- `ENV_CONTENT` = your full `.env` file content (paste as-is)
+
+**Creating `ENV_CONTENT`:**
+
+1. Locally, copy `.env.example` to `.env` and fill in real values (APP_KEY, DB_PASSWORD, APP_URL, etc.).
+2. Generate APP_KEY: `php artisan key:generate --show`
+3. Copy the entire `.env` file content and paste it into the `ENV_CONTENT` variable.
+
+Use the same `DB_PASSWORD` as in the PostgreSQL `CREATE USER` command from step 2.
+
+**Note:** Variables are not encrypted and can be viewed by anyone with repo admin access. For sensitive data, consider using Secrets instead (values are hidden but not viewable after creation).
 
 ### 4) Tag-based deployment
 
@@ -125,7 +161,6 @@ GitHub Actions triggers deployment and runs:
 
 - `bash scripts/deploy-tag.sh <tag>` on VPS
 - `composer install --no-dev`
-- `npm ci && npm run build`
 - `php artisan migrate --force`
 - cache refresh (`config:cache`, `route:cache`)
 

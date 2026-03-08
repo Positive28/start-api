@@ -122,7 +122,14 @@ sudo chmod -R 775 /var/www/start-api/storage /var/www/start-api/bootstrap/cache
 
 `.env` is created automatically from `ENV_CONTENT` secret during each deploy. Do not create it manually.
 
-Configure Nginx to serve `public/` as document root. See [Laravel deployment docs](https://laravel.com/docs/deployment#nginx).
+Configure Nginx to serve the Laravel app:
+
+```bash
+# Replace default site with Laravel config
+sudo cp /var/www/start-api/deploy/nginx-start-api.conf /etc/nginx/sites-available/start-api
+sudo ln -sf /etc/nginx/sites-available/start-api /etc/nginx/sites-enabled/default
+sudo nginx -t && sudo systemctl reload nginx
+```
 
 ### 3) Configure GitHub Secrets and Variables
 

@@ -135,6 +135,18 @@ sudo ln -sf /etc/nginx/sites-available/start-api /etc/nginx/sites-enabled/defaul
 sudo nginx -t && sudo systemctl reload nginx
 ```
 
+**If you get 502 Bad Gateway:** PHP-FPM may not be running or the socket path may differ. On the VPS:
+
+```bash
+# Check PHP-FPM status
+systemctl status php8.2-fpm
+
+# List available sockets (adjust version if needed)
+ls /var/run/php/
+
+# If using a different PHP version, edit the nginx config and change php8.2-fpm.sock
+```
+
 ### 3) Configure GitHub Secrets and Variables
 
 **Secrets** (Settings → Secrets and variables → Actions → Secrets):

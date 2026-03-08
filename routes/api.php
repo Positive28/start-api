@@ -7,8 +7,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\Admin\CategoryController;
 use Illuminate\Http\Request;
 
-
-
+Route::get('/', fn () => redirect('/api/v1'));
 
 Route::group(['prefix' => 'v1', 'middleware' => 'api'], function ($router) {
 

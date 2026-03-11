@@ -1,5 +1,24 @@
 # Serverda API ishlatish
 
+## 0. Ma'lumotlar bazasi (PostgreSQL)
+
+Loyiha **PostgreSQL** bilan ishlash uchun mos. Barcha migrationlar Laravel Schema builder orqali yozilgan (MySQL/PostgreSQL uchun bir xil).
+
+`.env` da:
+```env
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=daladan
+DB_USERNAME=postgres
+DB_PASSWORD=...
+```
+
+Bazani yaratib, keyin:
+```bash
+php artisan migrate:fresh --seed
+```
+
 ## 1. Document root
 
 **Document root** har doim loyihaning `public` papkasi bo'lishi kerak.

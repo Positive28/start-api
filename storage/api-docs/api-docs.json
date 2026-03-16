@@ -1,0 +1,197 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Start API",
+        "description": "AgroBozor uchun backend API",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://daladan-api.loc/api/v1",
+            "description": "Local dev server"
+        }
+    ],
+    "paths": {
+        "/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Yangi foydalanuvchini ro'yxatdan o'tkazish",
+                "operationId": "5d4fa5d5607ed675ba93907e1fc94534",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "phone",
+                                    "password",
+                                    "name"
+                                ],
+                                "properties": {
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "+998901234567"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "parol123"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Ism Familiya"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "user@example.com",
+                                        "nullable": true
+                                    },
+                                    "telegram": {
+                                        "type": "string",
+                                        "example": "@username",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Muvaffaqiyatli ro'yxatdan o'tdi, token qaytdi"
+                    },
+                    "422": {
+                        "description": "Validatsiya xatosi"
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Telefon raqam va parol bilan login",
+                "operationId": "67d6d0fdd54fba132e1b6f55ca254183",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "phone",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "+998901234567"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "parol123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Muvaffaqiyatli login, JWT token qaytadi"
+                    },
+                    "401": {
+                        "description": "Telefon raqam yoki parol noto'g'ri"
+                    },
+                    "422": {
+                        "description": "Validatsiya xatosi"
+                    }
+                }
+            }
+        },
+        "/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Tizimdan chiqish",
+                "operationId": "28d48c13fca984400ac8de99f54ee13a",
+                "responses": {
+                    "200": {
+                        "description": "Muvaffaqiyatli logout"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/auth/get-info": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Hozirgi foydalanuvchi ma'lumotlari",
+                "operationId": "41a6f6591b665ebde663e52174e2ede7",
+                "responses": {
+                    "200": {
+                        "description": "Foydalanuvchi ma'lumotlari qaytadi"
+                    },
+                    "401": {
+                        "description": "Unauthorized (token yo'q yoki noto'g'ri)"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/refresh": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Tokenni yangilash",
+                "operationId": "43a6bea9efa4b685457298ce9505de70",
+                "responses": {
+                    "200": {
+                        "description": "Yangi token qaytadi"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Auth",
+            "description": "Auth"
+        }
+    ]
+}

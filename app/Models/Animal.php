@@ -11,10 +11,6 @@ class Animal extends Model
 {
     use HasAdDetail, InteractsWithMedia;
 
-    protected $primaryKey = 'id';
-
-    public $incrementing = true;
-
     protected $fillable = [
         'ad_id',
         'age_months',

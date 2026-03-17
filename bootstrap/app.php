@@ -14,8 +14,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->append(ForceJsonResponse::class);
-        $middleware->append(HandleCors::class);
+        // Keep CORS first so error responses also include CORS headers.
+        $middleware->prepend(ForceJsonResponse::class);
+        $middleware->prepend(HandleCors::class);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

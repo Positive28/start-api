@@ -24,8 +24,13 @@ Route::group(['prefix' => 'v1', 'middleware' => 'api'], function ($router) {
     });
 
     Route::middleware('auth:api')->group(function () {
-        Route::get('/get-me', [AuthController::class, 'me']);
-        Route::apiResource('/users', UserController::class);
+        
+        Route::prefix('profile')->group(function () {
+            Route::get('/', [UserController::class, 'profile']);
+            Route::put('/', [UserController::class, 'updateProfile']);
+            Route::post('/avatar', [UserController::class, 'updateAvatar']);
+            Route::put('/password', [UserController::class, 'updatePassword']);
+        });
         Route::apiResource('/ads', AdController::class);
 
         Route::prefix('admin')->group(function () {

@@ -185,8 +185,8 @@ class AuthController extends Controller
     }
 
     /**
-     * @OA\Post(
-     *     path="/auth/get-info",
+     * @OA\Get(
+     *     path="/get-me",
      *     tags={"Auth"},
      *     summary="Hozirgi foydalanuvchi ma'lumotlari",
      *     security={{"bearerAuth":{}}},
@@ -200,10 +200,12 @@ class AuthController extends Controller
      *     )
      * )
      */
-
     public function me()
     {
         $user = auth('api')->user();
+        if (!$user) {
+            return response()->errorJson('Unauthorized', 401);
+        }
         $user->load(['region', 'city']);
 
         return response()->json($user);

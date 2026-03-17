@@ -16,7 +16,6 @@ Route::group(['prefix' => 'v1', 'middleware' => 'api'], function ($router) {
     Route::post('/register', [AuthController::class, 'register'])->name('register');
     Route::post('/login', [AuthController::class, 'login'])->name('login');
     Route::post('/refresh', [AuthController::class, 'refresh']);
-    Route::post('/auth/get-info', [AuthController::class, 'me']);
 
     // Viloyat va tumanlar ro'yxati (public, registratsiya formasi uchun)
     Route::prefix('resources')->controller(ResourceController::class)->group(function () {
@@ -25,6 +24,7 @@ Route::group(['prefix' => 'v1', 'middleware' => 'api'], function ($router) {
     });
 
     Route::middleware('auth:api')->group(function () {
+        Route::get('/get-me', [AuthController::class, 'me']);
         Route::apiResource('/users', UserController::class);
         Route::apiResource('/ads', AdController::class);
 

@@ -24,7 +24,7 @@ class UserController extends Controller
         ]);
 
         $perPage = $validated['per_page'] ?? 20;
-        $query   = User::query();
+        $query   = User::with(['region', 'city']);
 
         if (!empty($validated['name'])) {
             $query->where('name', 'like', '%' . $validated['name'] . '%');
@@ -75,7 +75,7 @@ class UserController extends Controller
     
     public function show(string $id)
     {
-        $user = User::find((int) $id);
+        $user = User::with(['region', 'city'])->find((int) $id);
 
         if (!$user) {
             return response()->errorJson('Object not found', 404);
@@ -100,8 +100,8 @@ class UserController extends Controller
             'email'     => 'nullable|email|unique:users,email,' . $userId,
             'password'  => 'nullable|string|min:6',
             'telegram'  => 'nullable|string|max:80',
-            'region_id' => 'nullable|integer|exists:regions,id',
-            'city_id'   => 'nullable|integer|exists:cities,id',
+            'region_id' => 'required|integer|exists:regions,id',
+            'city_id'   => 'required|integer|exists:cities,id',
             'role'      => 'required|in:user,admin',
             'avatar'    => 'nullable|image|mimes:jpeg,png,webp|max:2048',
         ]);

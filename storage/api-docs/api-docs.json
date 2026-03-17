@@ -17,8 +17,24 @@
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Yangi foydalanuvchini ro'yxatdan o'tkazish",
+                "summary": "Yangi foydalanuvchini ro'yxatdan o'tkazish (parol yoki telegram)",
                 "operationId": "5d4fa5d5607ed675ba93907e1fc94534",
+                "parameters": [
+                    {
+                        "name": "auth_type",
+                        "in": "query",
+                        "description": "Registratsiya turi: password yoki telegram",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "password",
+                            "enum": [
+                                "password",
+                                "telegram"
+                            ]
+                        }
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -27,7 +43,10 @@
                                 "required": [
                                     "phone",
                                     "password",
-                                    "name"
+                                    "fname",
+                                    "lname",
+                                    "region_id",
+                                    "city_id"
                                 ],
                                 "properties": {
                                     "phone": {
@@ -38,9 +57,21 @@
                                         "type": "string",
                                         "example": "parol123"
                                     },
-                                    "name": {
+                                    "fname": {
                                         "type": "string",
-                                        "example": "Ism Familiya"
+                                        "example": "Ism"
+                                    },
+                                    "lname": {
+                                        "type": "string",
+                                        "example": "Familiya"
+                                    },
+                                    "region_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "city_id": {
+                                        "type": "integer",
+                                        "example": 10
                                     },
                                     "email": {
                                         "type": "string",

@@ -7,7 +7,7 @@
     },
     "servers": [
         {
-            "url": "https://daladan.uz/api/v1",
+            "url": "https://api.daladan.uz/api/v1/",
             "description": "Production server"
         },
         {

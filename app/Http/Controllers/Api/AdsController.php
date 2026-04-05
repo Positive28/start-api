@@ -164,7 +164,8 @@ class AdsController extends Controller
     // Swagger / OpenAPI annotations
     // =========================================================================
 
-    /** index() — GET /profile/ads
+    /**
+     * index() — GET /profile/ads
      * @OA\Get(
      *     path="/profile/ads",
      *     tags={"Profile","Ads"},
@@ -175,8 +176,10 @@ class AdsController extends Controller
      *     @OA\Response(response=401, description="Unauthorized")
      * )
      */
+    private function _swaggerIndex(): void {}
 
-    /** store() — POST /profile/ads
+    /**
+     * store() — POST /profile/ads
      * @OA\Post(
      *     path="/profile/ads",
      *     tags={"Profile","Ads"},
@@ -203,8 +206,10 @@ class AdsController extends Controller
      *     @OA\Response(response=401, description="Unauthorized")
      * )
      */
+    private function _swaggerStore(): void {}
 
-    /** show() — GET /profile/ads/{ad}
+    /**
+     * show() — GET /profile/ads/{ad}
      * @OA\Get(
      *     path="/profile/ads/{ad}",
      *     tags={"Profile","Ads"},
@@ -216,8 +221,10 @@ class AdsController extends Controller
      *     @OA\Response(response=401, description="Unauthorized")
      * )
      */
+    private function _swaggerShow(): void {}
 
-    /** update() — POST /profile/ads/{ad}  (yoki PUT / PATCH)
+    /**
+     * update() — POST /profile/ads/{ad}  (yoki PUT / PATCH)
      * @OA\Post(
      *     path="/profile/ads/{ad}",
      *     tags={"Profile","Ads"},
@@ -265,8 +272,10 @@ class AdsController extends Controller
      *     @OA\Response(response=401, description="Unauthorized")
      * )
      */
+    private function _swaggerUpdate(): void {}
 
-    /** destroy() — DELETE /profile/ads/{ad}
+    /**
+     * destroy() — DELETE /profile/ads/{ad}
      * @OA\Delete(
      *     path="/profile/ads/{ad}",
      *     tags={"Profile","Ads"},
@@ -278,4 +287,5 @@ class AdsController extends Controller
      *     @OA\Response(response=401, description="Unauthorized")
      * )
      */
+    private function _swaggerDestroy(): void {}
 }

@@ -93,7 +93,8 @@ class UserController extends Controller
     // Swagger / OpenAPI annotations
     // =========================================================================
 
-    /** profile() — GET /profile
+    /**
+     * profile() — GET /profile
      * @OA\Get(
      *     path="/profile",
      *     tags={"Profile"},
@@ -103,8 +104,10 @@ class UserController extends Controller
      *     @OA\Response(response=401, description="Unauthorized")
      * )
      */
+    private function _swaggerProfile(): void {}
 
-    /** updateProfile() — PUT /profile
+    /**
+     * updateProfile() — PUT /profile
      * @OA\Put(
      *     path="/profile",
      *     tags={"Profile"},
@@ -125,8 +128,10 @@ class UserController extends Controller
      *     @OA\Response(response=422, description="Validatsiya xatosi")
      * )
      */
+    private function _swaggerUpdateProfile(): void {}
 
-    /** updateAvatar() — POST /profile/avatar
+    /**
+     * updateAvatar() — POST /profile/avatar
      * @OA\Post(
      *     path="/profile/avatar",
      *     tags={"Profile"},
@@ -145,8 +150,10 @@ class UserController extends Controller
      *     @OA\Response(response=422, description="Validatsiya xatosi")
      * )
      */
+    private function _swaggerUpdateAvatar(): void {}
 
-    /** updatePassword() — PUT /profile/password
+    /**
+     * updatePassword() — PUT /profile/password
      * @OA\Put(
      *     path="/profile/password",
      *     tags={"Profile"},
@@ -165,4 +172,5 @@ class UserController extends Controller
      *     @OA\Response(response=422, description="Validatsiya xatosi / parol mos kelmadi")
      * )
      */
+    private function _swaggerUpdatePassword(): void {}
 }

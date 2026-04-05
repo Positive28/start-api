@@ -64,7 +64,8 @@ class ResourceController extends Controller
     // Swagger / OpenAPI annotations
     // =========================================================================
 
-    /** regions() — GET /resources/regions
+    /**
+     * regions() — GET /resources/regions
      * @OA\Get(
      *     path="/resources/regions",
      *     tags={"Resources"},
@@ -72,8 +73,10 @@ class ResourceController extends Controller
      *     @OA\Response(response=200, description="Viloyatlar ro'yxati")
      * )
      */
+    private function _swaggerRegions(): void {}
 
-    /** cities() — GET /resources/cities
+    /**
+     * cities() — GET /resources/cities
      * @OA\Get(
      *     path="/resources/cities",
      *     tags={"Resources"},
@@ -85,8 +88,10 @@ class ResourceController extends Controller
      *     @OA\Response(response=200, description="Tumanlar ro'yxati")
      * )
      */
+    private function _swaggerCities(): void {}
 
-    /** categories() — GET /resources/categories
+    /**
+     * categories() — GET /resources/categories
      * @OA\Get(
      *     path="/resources/categories",
      *     tags={"Resources"},
@@ -94,8 +99,10 @@ class ResourceController extends Controller
      *     @OA\Response(response=200, description="Kategoriyalar ro'yxati")
      * )
      */
+    private function _swaggerCategories(): void {}
 
-    /** subcategories() — GET /resources/subcategories
+    /**
+     * subcategories() — GET /resources/subcategories
      * @OA\Get(
      *     path="/resources/subcategories",
      *     tags={"Resources"},
@@ -107,4 +114,5 @@ class ResourceController extends Controller
      *     @OA\Response(response=200, description="Subkategoriyalar ro'yxati")
      * )
      */
+    private function _swaggerSubcategories(): void {}
 }

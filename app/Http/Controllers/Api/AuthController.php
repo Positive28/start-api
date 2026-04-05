@@ -115,7 +115,8 @@ class AuthController extends Controller
     // Swagger / OpenAPI annotations
     // =========================================================================
 
-    /** register() — POST /register
+    /**
+     * register() — POST /register
      * @OA\Post(
      *     path="/register",
      *     tags={"Auth"},
@@ -141,8 +142,10 @@ class AuthController extends Controller
      *     @OA\Response(response=422, description="Validatsiya xatosi")
      * )
      */
+    private function _swaggerRegister(): void {}
 
-    /** login() — POST /login
+    /**
+     * login() — POST /login
      * @OA\Post(
      *     path="/login",
      *     tags={"Auth"},
@@ -159,8 +162,10 @@ class AuthController extends Controller
      *     @OA\Response(response=422, description="Validatsiya xatosi")
      * )
      */
+    private function _swaggerLogin(): void {}
 
-    /** logout() — POST /logout
+    /**
+     * logout() — POST /logout
      * @OA\Post(
      *     path="/logout",
      *     tags={"Auth"},
@@ -170,8 +175,10 @@ class AuthController extends Controller
      *     @OA\Response(response=401, description="Unauthorized")
      * )
      */
+    private function _swaggerLogout(): void {}
 
-    /** me() — GET /get-me
+    /**
+     * me() — GET /get-me
      * @OA\Get(
      *     path="/get-me",
      *     tags={"Auth"},
@@ -181,8 +188,10 @@ class AuthController extends Controller
      *     @OA\Response(response=401, description="Unauthorized")
      * )
      */
+    private function _swaggerMe(): void {}
 
-    /** refresh() — POST /refresh
+    /**
+     * refresh() — POST /refresh
      * @OA\Post(
      *     path="/refresh",
      *     tags={"Auth"},
@@ -192,4 +201,5 @@ class AuthController extends Controller
      *     @OA\Response(response=401, description="Unauthorized")
      * )
      */
+    private function _swaggerRefresh(): void {}
 }

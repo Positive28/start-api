@@ -67,21 +67,24 @@ class PublicController extends Controller
     // Swagger / OpenAPI annotations
     // =========================================================================
 
-    /** ads() — GET /public/ads
+    /**
+     * ads() — GET /public/ads
      * @OA\Get(
      *     path="/public/ads",
      *     tags={"Public"},
      *     summary="Barcha faol e'lonlar (ixtiyoriy filter)",
      *     description="category_id/subcategory_id yuborilmasa — barcha faol e'lonlar; yuborilsa — shu bo'yicha filter.",
-     *     @OA\Parameter(name="per_page",      in="query", required=false, description="1–50, default 15", @OA\Schema(type="integer", example=15)),
-     *     @OA\Parameter(name="category_id",   in="query", required=false, description="Berilmasa barcha kategoriyalar", @OA\Schema(type="integer")),
-     *     @OA\Parameter(name="subcategory_id",in="query", required=false, description="Berilmasa filter yo'q", @OA\Schema(type="integer")),
+     *     @OA\Parameter(name="per_page",       in="query", required=false, description="1–50, default 15", @OA\Schema(type="integer", example=15)),
+     *     @OA\Parameter(name="category_id",    in="query", required=false, description="Berilmasa barcha kategoriyalar", @OA\Schema(type="integer")),
+     *     @OA\Parameter(name="subcategory_id", in="query", required=false, description="Berilmasa filter yo'q", @OA\Schema(type="integer")),
      *     @OA\Response(response=200, description="Paginatsiyali e'lonlar"),
      *     @OA\Response(response=422, description="category_id/subcategory_id noto'g'ri")
      * )
      */
+    private function _swaggerAds(): void {}
 
-    /** ad() — GET /public/ads/{id}
+    /**
+     * ad() — GET /public/ads/{id}
      * @OA\Get(
      *     path="/public/ads/{id}",
      *     tags={"Public"},
@@ -91,4 +94,5 @@ class PublicController extends Controller
      *     @OA\Response(response=404, description="Topilmadi yoki faol emas")
      * )
      */
+    private function _swaggerAd(): void {}
 }
